@@ -31,7 +31,7 @@ test:
         - pipenv run python manage.py migrate
         - pipenv run python manage.py test
         - pipenv run coverage run -m pytest
-        - pipenv run coverage run report
+        #- pipenv run coverage run report
 
 sonarqube-check:
     stage: sonarqube-check
