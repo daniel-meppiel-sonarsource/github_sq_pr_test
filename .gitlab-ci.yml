@@ -20,8 +20,8 @@ cache:
 # This is a basic example for a gem or script which doesn't use
 # services such as redis or postgres
 before_script:
-    - apt-get -y update
-    - apt-get -y install python3.8
+    - sudo apt-get -yq update
+    - sudo apt-get -yq install python3.8
     - python3.8 -m pip install pip --upgrade
     - python3.8 -V # Print out python version for debugging
     - pip install pipenv
