@@ -20,18 +20,45 @@ pipeline {
       }
     }
 
-    stage('QA') {
+    stage('QA branch analysis') {
       agent {
         docker {
           image 'sonarsource/sonar-scanner-cli:latest'
         }
       }
+      when {
+        not {
+          changeRequest()
+        }
+      }
       steps {
-        echo 'Running SonarQube Analysis...'
+        echo 'Running SonarQube Branch Analysis...'
         script {
           withSonarQubeEnv('dmeppiel_sq') {
-            sh 'printenv'
-            sh 'sonar-scanner -X -Dsonar.qualitygate.wait=true'
+            sh "sonar-scanner -X -Dsonar.qualitygate.wait=true \
+                        -Dsonar.branch.name=${env.BRANCH_NAME}"
+          }
+        }
+      }
+    }
+
+    stage('QA PR analysis') {
+      agent {
+        docker {
+          image 'sonarsource/sonar-scanner-cli:latest'
+        }
+      }
+      when {
+          changeRequest()
+      }
+      steps {
+        echo 'Running SonarQube PR Analysis...'
+        script {
+          withSonarQubeEnv('dmeppiel_sq') {
+            sh "sonar-scanner -X -Dsonar.qualitygate.wait=true \
+                        -Dsonar.pullrequest.key=${env.CHANGE_ID} \
+                        -Dsonar.pullrequest.base=${env.CHANGE_TARGET} \
+                        -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
           }
         }
       }
