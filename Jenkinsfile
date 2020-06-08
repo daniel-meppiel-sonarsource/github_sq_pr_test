@@ -25,7 +25,7 @@ pipeline {
         script {
           def scannerHome = tool 'SQ Scanner Latest';
           withSonarQubeEnv('dmeppiel_sq') {
-            sh '${scannerHome}/bin/sonar-scanner -Dsonar.qualitygate.wait=true'
+            sh "${scannerHome}/bin/sonar-scanner -Dsonar.qualitygate.wait=true"
           }
         }
       }
