@@ -44,6 +44,6 @@ sonarqube-check:
     only:
         - master
         - branches
-        - external_pull_requests
+        - merge_requests
     
   
