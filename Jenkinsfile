@@ -21,7 +21,10 @@ pipeline {
 
     stage('QA') {
       steps {
-        sh 'sonar-scanner -Dsonar.qualitygate.wait=true'
+        def scannerHome = tool 'SQ Scanner Latest';
+        withSonarQubeEnv('dmeppiel_sq') {
+          sh '${scannerHome}/bin/sonar-scanner -Dsonar.qualitygate.wait=true'
+        }
       }
     }
 
