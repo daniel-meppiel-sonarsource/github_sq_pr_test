@@ -55,10 +55,10 @@ pipeline {
         echo 'Running SonarQube PR Analysis...'
         script {
           withSonarQubeEnv('dmeppiel_sq') {
-            sh "sonar-scanner -X -Dsonar.qualitygate.wait=true \
-                        -Dsonar.pullrequest.key=${env.CHANGE_ID} \
-                        -Dsonar.pullrequest.base=${env.CHANGE_TARGET} \
-                        -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
+            sh "sonar-scanner -X \
+                -Dsonar.pullrequest.key=${env.CHANGE_ID} \
+                -Dsonar.pullrequest.base=${env.CHANGE_TARGET} \
+                -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
           }
         }
       }
