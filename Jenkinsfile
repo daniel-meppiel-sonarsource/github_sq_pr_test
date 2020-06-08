@@ -1,12 +1,13 @@
 pipeline {
-  agent {
-    docker {
-      image 'python:3.8.3'
-    }
+  agent none
 
-  }
   stages {
     stage('Build') {
+      agent {
+        docker {
+          image 'python:3.8.3'
+        }
+      }
       steps {
         sh '''python3.8 -V # Print out python version for debugging
         python3 -m venv env
@@ -20,12 +21,16 @@ pipeline {
     }
 
     stage('QA') {
+      agent {
+        docker {
+          image 'sonarsource/sonar-scanner-cli:latest'
+        }
+      }
       steps {
         echo 'Running SonarQube Analysis...'
         script {
-          def scannerHome = tool 'SQ Scanner Latest';
           withSonarQubeEnv('dmeppiel_sq') {
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.qualitygate.wait=true"
+            sh 'sonar-scanner -Dsonar.qualitygate.wait=true'
           }
         }
       }
