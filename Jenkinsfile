@@ -9,7 +9,9 @@ pipeline {
     stage('Build') {
       steps {
         sh '''python3.8 -V # Print out python version for debugging
-        pip install --user pipenv
+        python3 -m venv
+        . venv/bin/activate
+        pip install pipenv
         pipenv install --dev
         pipenv run python manage.py migrate
         pipenv run python manage.py test
