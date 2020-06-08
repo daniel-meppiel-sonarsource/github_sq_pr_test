@@ -9,11 +9,13 @@ pipeline {
     stage('Build') {
       steps {
         sh '''python3.8 -V # Print out python version for debugging
-pip install pipenv --user
-pipenv install --dev
-pipenv run python manage.py migrate
-pipenv run python manage.py test
-pipenv run coverage run -m pytest'''
+        python3 -m venv env
+        source ./env/bin/activate
+        pip install pipenv
+        pipenv install --dev
+        pipenv run python manage.py migrate
+        pipenv run python manage.py test
+        pipenv run coverage run -m pytest'''
       }
     }
 
