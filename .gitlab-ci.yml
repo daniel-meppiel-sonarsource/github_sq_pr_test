@@ -1,3 +1,6 @@
+include:
+    - template: 'Workflows/MergeRequest-Pipelines.gitlab-ci.yml'
+    
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python
@@ -41,7 +44,4 @@ sonarqube-check:
     script:
         - sonar-scanner -Dsonar.qualitygate.wait=true
     allow_failure: true
-    only:
-        - merge_requests
-        - master
   
