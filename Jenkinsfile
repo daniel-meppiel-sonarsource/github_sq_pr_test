@@ -15,8 +15,8 @@ pipeline {
         pip install pipenv
         pipenv install --dev
         pipenv run python manage.py migrate
-        pipenv run python manage.py test
-        pipenv run coverage run -m pytest'''
+        pipenv run coverage run --source '.' manage.py test
+        pipenv run coverage run xml'''
       }
     }
 
