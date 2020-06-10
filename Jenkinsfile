@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh '''python3.8 -V # Print out python version for debugging
         python3 -m venv env
-        . ./venv/bin/activate
+        . ./env/bin/activate
         pip install pipenv
         pipenv install --dev
         pipenv run python manage.py migrate
