@@ -16,7 +16,7 @@ pipeline {
         pipenv install --dev
         pipenv run python manage.py migrate
         pipenv run coverage run --source '.' --omit 'env/*' manage.py test
-        pipenv run coverage run xml'''
+        pipenv run coverage xml'''
       }
     }
 
