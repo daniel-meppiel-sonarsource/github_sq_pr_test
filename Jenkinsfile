@@ -17,6 +17,7 @@ pipeline {
         pipenv run python manage.py migrate
         pipenv run coverage run --source '.' --omit 'env/*' manage.py test
         pipenv run coverage xml'''
+        stash includes: 'coverage.xml', name: 'COVERAGE_REPORT'
       }
     }
 
@@ -35,6 +36,7 @@ pipeline {
         echo 'Running SonarQube Branch Analysis...'
         script {
           withSonarQubeEnv('dmeppiel_sq') {
+            unstash 'COVERAGE_REPORT'
             sh "sonar-scanner -X -Dsonar.qualitygate.wait=true \
                         -Dsonar.branch.name=${env.BRANCH_NAME}"
           }
@@ -55,6 +57,7 @@ pipeline {
         echo 'Running SonarQube PR Analysis...'
         script {
           withSonarQubeEnv('dmeppiel_sq') {
+            unstash 'COVERAGE_REPORT'
             sh "sonar-scanner -X \
                 -Dsonar.pullrequest.key=${env.CHANGE_ID} \
                 -Dsonar.pullrequest.base=${env.CHANGE_TARGET} \
