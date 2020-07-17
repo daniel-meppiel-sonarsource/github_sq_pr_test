@@ -1,2 +1,4 @@
 .scannerwork
 .coverage
+coverage.xml
+.vscode
