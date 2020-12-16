@@ -30,7 +30,6 @@ pipeline {
         echo 'Running SonarQube Analysis...'
         script {
           withSonarQubeEnv('dmeppiel_sq') {
-            sh 'printenv'
             sh 'sonar-scanner -X -Dsonar.qualitygate.wait=true'
           }
         }
