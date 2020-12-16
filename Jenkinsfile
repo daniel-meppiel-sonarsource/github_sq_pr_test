@@ -34,9 +34,7 @@ pipeline {
         echo 'Running SonarQube Analysis...'
         script {
           withSonarQubeEnv('dmeppiel_sq') {
-            unstash 'COVERAGE_REPORT'
-            sh 'printenv'
-            sh "sonar-scanner -X -Dsonar.qualitygate.wait=true"
+            sh 'sonar-scanner -X -Dsonar.qualitygate.wait=true'
           }
         }
       }
