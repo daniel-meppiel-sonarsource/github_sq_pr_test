@@ -15,15 +15,19 @@ pipeline {
         pip install pipenv
         pipenv install --dev
         pipenv run python manage.py migrate
-        pipenv run python manage.py test
-        pipenv run coverage run -m pytest'''
+        pipenv run coverage run --source '.' --omit 'env/*' manage.py test
+        pipenv run coverage xml'''
+        stash includes: 'coverage.xml', name: 'COVERAGE_REPORT'
       }
     }
 
-    stage('QA') {
+    stage('QA analysis') {
       agent {
         docker {
           image 'sonarsource/sonar-scanner-cli:latest'
+          args """
+          -e JENKINS_HOME="${JENKINS_HOME}"
+          """
         }
       }
       steps {
@@ -35,6 +39,5 @@ pipeline {
         }
       }
     }
-
   }
 }
